@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>AzubiCoach SHK</title>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: Arial, sans-serif;
+}
+
+/* CHAT ICON */
+#azubi-chat-icon {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25AAC4;
+  color: #ffffff;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 99999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* CHAT FENSTER */
+#azubi-chat-window {
+  position: fixed;
+  bottom: 90px;
+  right: 1.2rem;
+  width: 320px;
+  height: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  display: none;
+  z-index: 99999;
+  overflow: hidden;
+}
+
+/* HEADER */
+#azubi-chat-header {
+  background: #25AAC4;
+  color: #ffffff;
+  padding: 10px 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* CONTENT */
+#azubi-chat-content {
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* CLOSE */
+#azubi-chat-close {
+  cursor: pointer;
+  font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="azubi-chat-icon" onclick="openChat()">💬</div>
+
+<div id="azubi-chat-window">
+  <div id="azubi-chat-header">
+    <span>AzubiCoach SHK</span>
+    <span id="azubi-chat-close" onclick="closeChat()">✕</span>
+  </div>
+  <div id="azubi-chat-content">
+    👋 Hallo!<br><br>
+    Das Chatfenster läuft jetzt stabil im iFrame.<br>
+    Im nächsten Schritt bauen wir das echte Chat-UI.
+  </div>
+</div>
+
+<script>
+function openChat() {
+  document.getElementById("azubi-chat-window").style.display = "block";
+}
+function closeChat() {
+  document.getElementById("azubi-chat-window").style.display = "none";
+}
+</script>
+
+</body>
+</html>
