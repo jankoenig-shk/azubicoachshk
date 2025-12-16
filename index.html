@@ -12,7 +12,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* === CHAT ICON === */
+/* ================= ICON ================= */
 #azubi-chat-icon {
   position: fixed;
   bottom: 24px;
@@ -31,7 +31,7 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
-/* === CHAT WINDOW === */
+/* ================= CHAT WINDOW ================= */
 #azubi-chat-window {
   position: fixed;
   bottom: 96px;
@@ -46,7 +46,7 @@ body {
   overflow: hidden;
 }
 
-/* === HEADER === */
+/* ================= HEADER ================= */
 #azubi-chat-header {
   background: #25AAC4;
   color: #ffffff;
@@ -57,7 +57,7 @@ body {
   align-items: center;
 }
 
-/* === CONTENT === */
+/* ================= CONTENT ================= */
 #azubi-chat-content {
   padding: 12px;
   height: calc(100% - 120px);
@@ -65,7 +65,7 @@ body {
   font-size: 14px;
 }
 
-/* === INPUT === */
+/* ================= INPUT ================= */
 #azubi-chat-input {
   border-top: 1px solid #ddd;
   padding: 8px;
@@ -78,6 +78,22 @@ body {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
+/* ================= TOGGLE ================= */
+#azubi-toggle {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  padding: 6px 10px;
+  background: #25AAC4;
+  color: white;
+  font-size: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 10002;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  user-select: none;
+}
 </style>
 </head>
 
@@ -88,7 +104,6 @@ body {
 
 <!-- CHAT WINDOW -->
 <div id="azubi-chat-window">
-
   <div id="azubi-chat-header">
     <span>AzubiCoach SHK</span>
     <span style="cursor:pointer" onclick="closeChat()">✕</span>
@@ -96,7 +111,7 @@ body {
 
   <div id="azubi-chat-content">
     👋 Hallo!<br><br>
-    Nenne zuerst dein Lernfeld (LF10, LF11 oder LF12) und stelle dann deine Frage.
+    Bitte nenne zuerst dein Lernfeld (LF10, LF11 oder LF12).
   </div>
 
   <div id="azubi-chat-input">
@@ -106,10 +121,45 @@ body {
       placeholder="z. B. LF11: Wie funktioniert …?"
       onkeydown="handleEnter(event)">
   </div>
-
 </div>
 
+<!-- TOGGLE BUTTON -->
+<div id="azubi-toggle" onclick="toggleChat()">Azubi-Coach SHK: AN</div>
+
 <script>
+/* ================= STATUS ================= */
+const CHAT_KEY = "azubiChatEnabled";
+
+function isChatEnabled() {
+  return localStorage.getItem(CHAT_KEY) !== "false";
+}
+
+function setChatEnabled(value) {
+  localStorage.setItem(CHAT_KEY, value ? "true" : "false");
+}
+
+/* ================= TOGGLE ================= */
+function toggleChat() {
+  setChatEnabled(!isChatEnabled());
+  applyChatState();
+}
+
+/* ================= APPLY ================= */
+function applyChatState() {
+  const icon = document.getElementById("azubi-chat-icon");
+  const toggle = document.getElementById("azubi-toggle");
+
+  if (isChatEnabled()) {
+    icon.style.display = "flex";
+    toggle.textContent = "Azubi-Coach SHK: AN";
+  } else {
+    icon.style.display = "none";
+    toggle.textContent = "Azubi-Coach SHK: AUS";
+    closeChat();
+  }
+}
+
+/* ================= CHAT ================= */
 function openChat() {
   document.getElementById("azubi-chat-window").style.display = "block";
 }
@@ -118,6 +168,7 @@ function closeChat() {
   document.getElementById("azubi-chat-window").style.display = "none";
 }
 
+/* ================= INPUT ================= */
 function handleEnter(e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -127,18 +178,16 @@ function handleEnter(e) {
 
 function sendMessage() {
   const input = document.getElementById("chat-input");
-  const message = input.value.trim();
-  if (!message) return;
+  const msg = input.value.trim();
+  if (!msg) return;
 
-  addMessage("Du", message);
+  addMessage("Du", msg);
   input.value = "";
 
-  // 🔗 HIER später deinen bestehenden GPT-Server einbinden
-  // fetch("https://DEIN-SERVER/chat", ...)
-
+  /* 🔗 HIER später deinen bestehenden GPT-Server anbinden */
   setTimeout(() => {
     addMessage("AzubiCoach", "Antwort kommt vom Server …");
-  }, 500);
+  }, 600);
 }
 
 function addMessage(author, text) {
@@ -146,9 +195,13 @@ function addMessage(author, text) {
   chat.innerHTML += `<p><strong>${author}:</strong> ${text}</p>`;
   chat.scrollTop = chat.scrollHeight;
 }
+
+/* ================= INIT ================= */
+document.addEventListener("DOMContentLoaded", applyChatState);
 </script>
 
 </body>
 </html>
+
 
 
