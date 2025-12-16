@@ -12,7 +12,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* ================= ICON ================= */
+/* ===== CHAT ICON ===== */
 #azubi-chat-icon {
   position: fixed;
   bottom: 24px;
@@ -31,7 +31,7 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
-/* ================= CHAT WINDOW ================= */
+/* ===== CHAT WINDOW ===== */
 #azubi-chat-window {
   position: fixed;
   bottom: 96px;
@@ -46,7 +46,7 @@ body {
   overflow: hidden;
 }
 
-/* ================= HEADER ================= */
+/* ===== HEADER ===== */
 #azubi-chat-header {
   background: #25AAC4;
   color: #ffffff;
@@ -57,7 +57,7 @@ body {
   align-items: center;
 }
 
-/* ================= CONTENT ================= */
+/* ===== CONTENT ===== */
 #azubi-chat-content {
   padding: 12px;
   height: calc(100% - 120px);
@@ -65,7 +65,7 @@ body {
   font-size: 14px;
 }
 
-/* ================= INPUT ================= */
+/* ===== INPUT ===== */
 #azubi-chat-input {
   border-top: 1px solid #ddd;
   padding: 8px;
@@ -79,7 +79,7 @@ body {
   border-radius: 6px;
 }
 
-/* ================= TOGGLE ================= */
+/* ===== TOGGLE BUTTON ===== */
 #azubi-toggle {
   position: fixed;
   bottom: 24px;
@@ -123,13 +123,14 @@ body {
   </div>
 </div>
 
-<!-- TOGGLE BUTTON -->
-<div id="azubi-toggle" onclick="toggleChat()">Azubi-Coach SHK: AN</div>
+<!-- TOGGLE -->
+<div id="azubi-toggle" onclick="toggleChat()">Azubi-Coach SHK: AUS</div>
 
 <script>
-/* ================= STATUS ================= */
+/* ===== STATUS ===== */
 const CHAT_KEY = "azubiChatEnabled";
 
+/* true = Icon sichtbar */
 function isChatEnabled() {
   return localStorage.getItem(CHAT_KEY) !== "false";
 }
@@ -138,28 +139,28 @@ function setChatEnabled(value) {
   localStorage.setItem(CHAT_KEY, value ? "true" : "false");
 }
 
-/* ================= TOGGLE ================= */
+/* ===== TOGGLE ===== */
 function toggleChat() {
   setChatEnabled(!isChatEnabled());
   applyChatState();
 }
 
-/* ================= APPLY ================= */
+/* ===== APPLY STATE ===== */
 function applyChatState() {
   const icon = document.getElementById("azubi-chat-icon");
   const toggle = document.getElementById("azubi-toggle");
 
   if (isChatEnabled()) {
     icon.style.display = "flex";
-    toggle.textContent = "Azubi-Coach SHK: AN";
+    toggle.textContent = "Azubi-Coach SHK: AUS";
   } else {
     icon.style.display = "none";
-    toggle.textContent = "Azubi-Coach SHK: AUS";
+    toggle.textContent = "Azubi-Coach SHK: AN";
     closeChat();
   }
 }
 
-/* ================= CHAT ================= */
+/* ===== CHAT ===== */
 function openChat() {
   document.getElementById("azubi-chat-window").style.display = "block";
 }
@@ -168,7 +169,7 @@ function closeChat() {
   document.getElementById("azubi-chat-window").style.display = "none";
 }
 
-/* ================= INPUT ================= */
+/* ===== INPUT ===== */
 function handleEnter(e) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -184,7 +185,7 @@ function sendMessage() {
   addMessage("Du", msg);
   input.value = "";
 
-  /* 🔗 HIER später deinen bestehenden GPT-Server anbinden */
+  // 🔗 später: dein GPT-Server
   setTimeout(() => {
     addMessage("AzubiCoach", "Antwort kommt vom Server …");
   }, 600);
@@ -196,7 +197,7 @@ function addMessage(author, text) {
   chat.scrollTop = chat.scrollHeight;
 }
 
-/* ================= INIT ================= */
+/* ===== INIT ===== */
 document.addEventListener("DOMContentLoaded", applyChatState);
 </script>
 
