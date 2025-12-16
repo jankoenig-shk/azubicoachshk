@@ -132,7 +132,8 @@ const CHAT_KEY = "azubiChatEnabled";
 
 /* true = Icon sichtbar */
 function isChatEnabled() {
-  return localStorage.getItem(CHAT_KEY) !== "false";
+  // Standard: AUS
+  return localStorage.getItem(CHAT_KEY) === "true";
 }
 
 function setChatEnabled(value) {
@@ -203,6 +204,7 @@ document.addEventListener("DOMContentLoaded", applyChatState);
 
 </body>
 </html>
+
 
 
 
