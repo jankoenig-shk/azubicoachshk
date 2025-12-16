@@ -12,11 +12,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* CHAT ICON */
+/* === CHAT ICON === */
 #azubi-chat-icon {
   position: fixed;
-  bottom: 1.2rem;
-  right: 1.2rem;
+  bottom: 24px;
+  right: 24px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -27,26 +27,26 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 99999;
+  z-index: 10001;
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
 
-/* CHAT FENSTER */
+/* === CHAT WINDOW === */
 #azubi-chat-window {
   position: fixed;
-  bottom: 90px;
-  right: 1.2rem;
-  width: 320px;
-  height: 420px;
+  bottom: 96px;
+  right: 24px;
+  width: 360px;
+  height: 520px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   display: none;
-  z-index: 99999;
+  z-index: 10000;
   overflow: hidden;
 }
 
-/* HEADER */
+/* === HEADER === */
 #azubi-chat-header {
   background: #25AAC4;
   color: #ffffff;
@@ -57,45 +57,98 @@ body {
   align-items: center;
 }
 
-/* CONTENT */
+/* === CONTENT === */
 #azubi-chat-content {
   padding: 12px;
+  height: calc(100% - 120px);
+  overflow-y: auto;
   font-size: 14px;
 }
 
-/* CLOSE */
-#azubi-chat-close {
-  cursor: pointer;
-  font-size: 18px;
+/* === INPUT === */
+#azubi-chat-input {
+  border-top: 1px solid #ddd;
+  padding: 8px;
+}
+
+#chat-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- CHAT ICON -->
 <div id="azubi-chat-icon" onclick="openChat()">💬</div>
 
+<!-- CHAT WINDOW -->
 <div id="azubi-chat-window">
+
   <div id="azubi-chat-header">
     <span>AzubiCoach SHK</span>
-    <span id="azubi-chat-close" onclick="closeChat()">✕</span>
+    <span style="cursor:pointer" onclick="closeChat()">✕</span>
   </div>
+
   <div id="azubi-chat-content">
     👋 Hallo!<br><br>
-    Das Chatfenster läuft jetzt stabil im iFrame.<br>
-    Im nächsten Schritt bauen wir das echte Chat-UI.
+    Nenne zuerst dein Lernfeld (LF10, LF11 oder LF12) und stelle dann deine Frage.
   </div>
+
+  <div id="azubi-chat-input">
+    <input
+      id="chat-input"
+      type="text"
+      placeholder="z. B. LF11: Wie funktioniert …?"
+      onkeydown="handleEnter(event)">
+  </div>
+
 </div>
 
 <script>
 function openChat() {
   document.getElementById("azubi-chat-window").style.display = "block";
 }
+
 function closeChat() {
   document.getElementById("azubi-chat-window").style.display = "none";
+}
+
+function handleEnter(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+  if (!message) return;
+
+  addMessage("Du", message);
+  input.value = "";
+
+  // 🔗 HIER später deinen bestehenden GPT-Server einbinden
+  // fetch("https://DEIN-SERVER/chat", ...)
+
+  setTimeout(() => {
+    addMessage("AzubiCoach", "Antwort kommt vom Server …");
+  }, 500);
+}
+
+function addMessage(author, text) {
+  const chat = document.getElementById("azubi-chat-content");
+  chat.innerHTML += `<p><strong>${author}:</strong> ${text}</p>`;
+  chat.scrollTop = chat.scrollHeight;
 }
 </script>
 
 </body>
 </html>
+
 
